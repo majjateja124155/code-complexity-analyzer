@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Complexity Analyzer - Predict & Understand Complexity</title>
+  <meta name="description" content="Analyze algorithms with time and space complexity predictions, clear explanations, and practical optimization insights.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2225%22 fill=%22%234f46e5%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22monospace%22>&lt;/&gt;</text></svg>">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/editor.css">
+  <link rel="stylesheet" href="styles/visualizer.css">
+  <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+      <div class="brand-wrapper">
+        <div class="brand-icon-box">&lt;/&gt;</div>
+        <div class="brand-text-block">
+          <div class="brand-title-line">
+            <span class="brand-name">Code Complexity Analyzer</span>
+          </div>
+          <span class="brand-subtext">Time &amp; Space Complexity Analyzer</span>
+        </div>
+      </div>
+
+      <nav class="nav-actions">
+        <button class="nav-link-btn btn-analyze-chip" id="navAnalyzeBtn">
+          ⚙️ <span>Analyze</span>
+        </button>
+        <button class="nav-link-btn" id="navGuideBtn">
+          📖 <span>Complexity Guide</span>
+        </button>
+        <button class="nav-link-btn" id="navAboutBtn">
+          ℹ️ <span>About</span>
+        </button>
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+          🌙
+        </button>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-pill">
+        <span>⚡ Asymptotic Algorithm Analyzer</span>
+      </div>
+
+      <h1 class="hero-title">Understand Your Code's Complexity.</h1>
+
+      <p class="hero-subtitle">
+        Analyze algorithms with AI-powered time and space complexity predictions,
+        clear explanations, and practical optimization insights.
+      </p>
+
+      <!-- 3 Feature Cards -->
+      <div class="hero-feature-cards">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper icon-purple">🕒</div>
+          <div class="feature-content">
+            <h3>Time Complexity</h3>
+            <p>Asymptotic upper, average, and best-case Big-O bounds with loop &amp; recursion tracing.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper icon-green">🗄️</div>
+          <div class="feature-content">
+            <h3>Space Complexity</h3>
+            <p>Auxiliary scratchpad storage and call stack depth evaluation excluding input size.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper icon-yellow">💡</div>
+          <div class="feature-content">
+            <h3>Optimization Insights</h3>
+            <p>Actionable algorithmic improvements, trade-offs, and pattern detection.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero CTA Button -->
+      <a href="#workspaceSection" class="btn-hero-cta" id="btnStartAnalyzing">
+        <span>Start Analyzing Code ↓</span>
+      </a>
+    </section>
+
+    <!-- Source Code Analysis Workspace Section -->
+    <section id="workspaceSection" style="scroll-margin-top: 90px;">
+      <div class="section-header-block">
+        <h2 class="section-title">Source Code Analysis Workspace</h2>
+        <p class="section-subtitle">
+          Select your language, compose or load an algorithm, and derive asymptotic Big-O bounds.
+        </p>
+      </div>
+
+      <div class="workspace-card">
+        <!-- Workspace Header Bar -->
+        <div class="workspace-header-bar">
+          <div class="workspace-badge-tag">
+            <span class="chip-workspace">&gt;_ Workspace</span>
+            <span>• Non-executing static &amp; AI structural parser</span>
+          </div>
+
+          <div class="workspace-actions-right">
+            <button class="btn-ghost-action" id="btnCopyCode" title="Copy Code">
+              📋 <span>Copy</span>
+            </button>
+            <button class="btn-ghost-action" id="btnClearCode" title="Clear Code">
+              🗑️ <span>Clear</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2-Column Split: Editor + Controls -->
+        <div class="workspace-body-split">
+          
+          <!-- LEFT: Code Editor Pane -->
+          <div class="editor-pane-left">
+            <!-- Top Status Bar -->
+            <div class="editor-top-status">
+              <div class="editor-lang-indicator">
+                <span class="indicator-dot"></span>
+                <span id="activeLangTag">PYTHON</span>
+                <span style="color: #64748b; font-weight: normal;">| Press Ctrl+Enter to analyze</span>
+              </div>
+              <div class="editor-metrics-inline">
+                <span id="metricLineChars">9 lines • 200 chars</span>
+              </div>
+            </div>
+
+            <!-- Code Area with Gutter -->
+            <div class="code-editor-viewport">
+              <div class="line-numbers-gutter" id="lineNumbersGutter">
+                <!-- Populated dynamically -->
+              </div>
+              <textarea 
+                id="codeEditor" 
+                class="code-textarea" 
+                spellcheck="false" 
+                autocomplete="off" 
+                autocorrect="off" 
+                autocapitalize="off" 
+                placeholder="Write or paste your algorithm here..."
+              ></textarea>
+            </div>
+
+            <!-- Bottom Action Bar (Analyze Button) -->
+            <div class="editor-bottom-bar">
+              <button class="btn-run-analyze" id="btnRunAnalysis">
+                <span>⚡ Analyze Complexity</span>
+                <span class="kbd-shortcut">Ctrl + Enter</span>
+              </button>
+
+              <div style="font-size: 0.75rem; color: #94a3b8; font-family: var(--font-mono);">
+                Status: <span id="statusIndicator" style="color: #10b981; font-weight: 700;">Ready</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Controls & Preset Algorithms Pane -->
+          <div class="controls-pane-right">
+            <!-- Programming Language Picker -->
+            <div>
+              <div class="control-group-title">
+                <span>Programming Language</span>
+              </div>
+              <div class="languages-grid" id="languageButtonsGrid">
+                <button class="btn-lang-choice active" data-lang="python">Python</button>
+                <button class="btn-lang-choice" data-lang="cpp">C++</button>
+                <button class="btn-lang-choice" data-lang="c">C</button>
+                <button class="btn-lang-choice" data-lang="java">Java</button>
+                <button class="btn-lang-choice" data-lang="javascript">JavaScript</button>
+                <button class="btn-lang-choice" data-lang="go">Go</button>
+              </div>
+            </div>
+
+            <!-- Preset Algorithms -->
+            <div>
+              <div class="control-group-title">
+                <span>Preset Algorithms</span>
+                <span class="samples-count-tag" id="samplesCountLabel">📖 6 Samples</span>
+              </div>
+              <div class="presets-vertical-list" id="presetAlgorithmsList">
+                <!-- Populated dynamically from presets.js -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Analysis Results Output Section (Prominently displayed) -->
+    <section id="resultsSection" style="scroll-margin-top: 90px;">
+      <div class="section-header-block">
+        <h2 class="section-title">Analysis Results &amp; Complexity Profile</h2>
+        <p class="section-subtitle">
+          Asymptotic analysis derived from static AST inspection and formal algorithmic invariants.
+        </p>
+      </div>
+
+      <!-- Analysis Results Dashboard Card (Matching user screenshot) -->
+      <div class="dashboard-results-container">
+        <!-- Top Summary Card -->
+        <div class="dashboard-header-card">
+          <div class="dashboard-title-row">
+            <div class="dashboard-title-group">
+              <span class="status-dot-green"></span>
+              <h3 class="dashboard-main-title">Analysis Results Dashboard</h3>
+              <span class="dashboard-lang-badge" id="dashboardLangBadge">cpp</span>
+            </div>
+          </div>
+          <p class="dashboard-algorithm-desc" id="dashboardAlgorithmDesc">
+            Computes the minimum number of coins needed to make a target amount using a bottom-up 1D dynamic programming approach (the classic unbounded Coin Change problem).
+          </p>
+          <div class="dashboard-actions-row">
+            <button class="btn-dash-action" id="btnCopyReport" title="Copy full markdown report">
+              <span class="btn-dash-icon">📋</span>
+              <span>Copy Report</span>
+            </button>
+            <button class="btn-dash-action" id="btnDownloadMd" title="Download markdown report file">
+              <span class="btn-dash-icon">⬇</span>
+              <span>Download .md</span>
+            </button>
+            <button class="btn-dash-action" id="btnEditCode" title="Scroll up and edit source code">
+              <span class="btn-dash-icon">✏</span>
+              <span>Edit Code</span>
+            </button>
+            <button class="btn-dash-action btn-dash-primary" id="btnAnalyzeAgain" title="Re-run asymptotic analysis">
+              <span class="btn-dash-icon">🔄</span>
+              <span>Analyze Again</span>
+            </button>
+            <button class="btn-dash-icon-only" id="btnClearDashboard" title="Clear analysis & code">
+              <span>🗑</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3 Primary Scorecard Cards -->
+        <div class="dashboard-cards-grid">
+          
+          <!-- Card 1: Time Complexity -->
+          <div class="dash-card dash-card-time">
+            <div class="dash-card-header">
+              <div class="dash-card-header-left">
+                <span class="dash-card-icon icon-time">🕒</span>
+                <span class="dash-card-label">TIME COMPLEXITY</span>
+              </div>
+              <span class="dash-card-meta">WORST CASE</span>
+            </div>
+            <div class="dash-card-metric metric-time" id="timeComplexityVal">O(n * amount)</div>
+            <div class="dash-card-pills-row">
+              <span class="dash-pill" id="timeAverageVal">Avg: O(n * amount)</span>
+              <span class="dash-pill dash-pill-green" id="timeBestVal">Best: O(n * amount)</span>
+            </div>
+            <p class="dash-card-body-text" id="timeExplanationText">
+              The algorithm executes an outer loop iterating from 1 to 'amount' and an inner loop iterating through all n coins. Each inner step performs O(1) arithmetic comparisons and table lookups, totaling O(n * amount) operations.
+            </p>
+          </div>
+
+          <!-- Card 2: Auxiliary Space -->
+          <div class="dash-card dash-card-space">
+            <div class="dash-card-header">
+              <div class="dash-card-header-left">
+                <span class="dash-card-icon icon-space">🗄️</span>
+                <span class="dash-card-label">AUXILIARY SPACE</span>
+              </div>
+              <span class="dash-card-meta">EXTRA MEMORY</span>
+            </div>
+            <div class="dash-card-metric metric-space" id="spaceComplexityVal">O(amount)</div>
+            <div class="dash-card-subtext" id="spaceSubtext">
+              Stack frames &amp; heap allocations, excluding input size.
+            </div>
+            <p class="dash-card-body-text" id="spaceExplanationText">
+              Excluding the input vector 'coins' of size n, the algorithm allocates a dynamic programming table 'dp' of size amount + 1 integers, requiring O(amount) auxiliary heap memory.
+            </p>
+          </div>
+
+          <!-- Card 3: Analysis Status -->
+          <div class="dash-card dash-card-status">
+            <div class="dash-card-header">
+              <div class="dash-card-header-left">
+                <span class="dash-card-icon icon-status">✓</span>
+                <span class="dash-card-label">ANALYSIS STATUS</span>
+              </div>
+              <span class="badge-complete" id="statusCompleteBadge">COMPLETE</span>
+            </div>
+            <div class="dash-card-confidence-row">
+              <span class="badge-confidence" id="confidenceBadge">High Confidence</span>
+            </div>
+            <p class="dash-card-body-text" id="statusExplanationText">
+              The algorithm is a textbook implementation of the dynamic programming coin change algorithm with explicit loop bounds and straightforward memory usage.
+            </p>
+            <div class="dash-card-footer">
+              <span class="footer-meta-left" id="dashboardModelTag">Model: Gemini 3.8 Flash</span>
+              <span class="footer-meta-right">Qualitative Assessment</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Deep Dive Tabs Wrapper (Growth Curves, Line Profiler, Proof, Optimizations) -->
+      <div class="output-results-wrapper">
+
+        <!-- Recurrence Formula Alert (if applicable) -->
+        <div id="recurrenceContainer" style="display: none; padding: 18px 24px; background: rgba(124, 58, 237, 0.06); border-bottom: 1px solid var(--border-color);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <strong style="color: var(--accent-purple); font-size: 0.85rem; text-transform: uppercase;">
+              Master Theorem &amp; Recurrence Relation
+            </strong>
+            <span class="pill-badge-tag badge-tag-purple" id="recurrenceMethod">Master Theorem</span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 800; color: var(--text-heading); margin-bottom: 4px;" id="recurrenceFormula">
+            T(n) = 2T(n/2) + O(n)
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);" id="recurrenceExplanation">
+            Divides problem into 2 subproblems of size n/2 with linear merge phase.
+          </p>
+        </div>
+
+        <!-- Output Tabs Navigation -->
+        <nav class="output-tab-bar">
+          <button class="tab-nav-btn active" data-tab="tab-chart">
+            📈 <span>Growth Curves &amp; Benchmark</span>
+          </button>
+          <button class="tab-nav-btn" data-tab="tab-profiler">
+            🔥 <span>Line-by-Line Profiler</span>
+          </button>
+          <button class="tab-nav-btn" data-tab="tab-proof">
+            🧠 <span>Mathematical Proof &amp; Invariants</span>
+          </button>
+          <button class="tab-nav-btn" data-tab="tab-optimizer">
+            ✨ <span>Optimization Insights</span>
+          </button>
+        </nav>
+
+        <!-- TAB 1: Growth Curves & Benchmark Simulator -->
+        <div class="tab-pane-content active" id="tab-chart">
+          <div class="visualizer-wrapper">
+            <div class="visualizer-controls-row">
+              <div style="font-size: 0.88rem; font-weight: 700; color: var(--text-heading);">
+                Asymptotic Big-O Growth Curves
+              </div>
+              <div class="scale-buttons-toggle">
+                <button class="btn-scale-toggle active" id="btnScaleLinear">Linear Scale</button>
+                <button class="btn-scale-toggle" id="btnScaleLog">Logarithmic (Y)</button>
+              </div>
+            </div>
+
+            <!-- Canvas Chart -->
+            <div class="chart-canvas-box">
+              <canvas id="bigOCanvas"></canvas>
+            </div>
+
+            <!-- Chart Legend -->
+            <div class="chart-legend-strip">
+              <div class="legend-tag-item"><span class="legend-circle-dot" style="background: #10b981;"></span>O(1)</div>
+              <div class="legend-tag-item"><span class="legend-circle-dot" style="background: #06b6d4;"></span>O(log n)</div>
+              <div class="legend-tag-item"><span class="legend-circle-dot" style="background: #3b82f6;"></span>O(n)</div>
+              <div class="legend-tag-item"><span class="legend-circle-dot" style="background: #eab308;"></span>O(n log n)</div>
+              <div class="legend-tag-item"><span class="legend-circle-dot" style="background: #f97316;"></span>O(n²)</div>
+              <div class="legend-tag-item"><span class="legend-circle-dot" style="background: #ef4444;"></span>O(n³)</div>
+              <div class="legend-tag-item"><span class="legend-circle-dot" style="background: #ec4899;"></span>O(2ⁿ)</div>
+            </div>
+
+            <!-- Benchmark Simulator Card -->
+            <div class="benchmark-simulation-box">
+              <div class="simulation-header-controls">
+                <div class="slider-group-box">
+                  <label for="nSlider">Test Input Size (n):</label>
+                  <input type="range" id="nSlider" class="slider-n-input" min="1" max="1000000" step="10" value="1000">
+                  <span class="slider-n-display" id="nValueDisplay">n = 1,000</span>
+                </div>
+                <div class="quick-pills-row">
+                  <button class="quick-n-btn" data-n="10">n=10</button>
+                  <button class="quick-n-btn" data-n="100">n=100</button>
+                  <button class="quick-n-btn active" data-n="1000">n=1,000</button>
+                  <button class="quick-n-btn" data-n="50000">n=50,000</button>
+                  <button class="quick-n-btn" data-n="1000000">n=1,000,000</button>
+                </div>
+              </div>
+
+              <!-- Table -->
+              <div class="benchmark-table-responsive">
+                <table class="benchmark-data-table">
+                  <thead>
+                    <tr>
+                      <th>Complexity Class</th>
+                      <th>Computed Operations</th>
+                      <th>Estimated Time (1 GHz CPU)</th>
+                      <th>Scalability Assessment</th>
+                    </tr>
+                  </thead>
+                  <tbody id="benchmarkTableBody">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB 2: Line-by-Line Profiler Heatmap -->
+        <div class="tab-pane-content" id="tab-profiler">
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">
+            Every statement in the source code is profiled for loop execution depth, branching, and auxiliary allocations:
+          </p>
+          <div class="line-profiler-container" id="lineProfilerContainer">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- TAB 3: Mathematical Proof & Invariants -->
+        <div class="tab-pane-content" id="tab-proof">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+            <span style="font-size: 0.85rem; color: var(--text-muted);" id="proofSourceLabel">
+              Evaluation: Static AST &amp; Algorithmic Invariants
+            </span>
+            <button class="btn-ghost-action" id="btnCopyProof">
+              📋 <span>Copy Proof</span>
+            </button>
+          </div>
+
+          <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; font-size: 0.88rem; line-height: 1.7;" id="proofContentBox">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- TAB 4: Optimization Insights -->
+        <div class="tab-pane-content" id="tab-optimizer">
+          <div class="optimizations-grid" id="optimizationsGrid">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- MODAL: Complexity Guide -->
+  <div class="modal-backdrop" id="modalGuide">
+    <div class="modal-window">
+      <div class="modal-header-row">
+        <h3>📖 Algorithmic Complexity Guide (Big-O Cheat Sheet)</h3>
+        <button class="modal-close-icon" id="btnCloseGuide">&times;</button>
+      </div>
+      <div class="modal-body-scroll">
+        <p>Big-O notation describes the limiting behavior of an algorithm when input size $n$ approaches infinity:</p>
+
+        <table class="benchmark-data-table" style="margin: 10px 0;">
+          <thead>
+            <tr>
+              <th>Notation</th>
+              <th>Name</th>
+              <th>Description &amp; Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>O(1)</strong></td>
+              <td>Constant</td>
+              <td>Direct array index lookup, hash map retrieval.</td>
+            </tr>
+            <tr>
+              <td><strong>O(log n)</strong></td>
+              <td>Logarithmic</td>
+              <td>Binary search on sorted arrays, balanced search trees.</td>
+            </tr>
+            <tr>
+              <td><strong>O(n)</strong></td>
+              <td>Linear</td>
+              <td>Single-pass traversal over an array or linked list.</td>
+            </tr>
+            <tr>
+              <td><strong>O(n log n)</strong></td>
+              <td>Linearithmic</td>
+              <td>Comparison sorting algorithms (Merge Sort, HeapSort, QuickSort avg).</td>
+            </tr>
+            <tr>
+              <td><strong>O(n²)</strong></td>
+              <td>Quadratic</td>
+              <td>Two-level nested loops, bubble sort, pairwise comparisons.</td>
+            </tr>
+            <tr>
+              <td><strong>O(n³)</strong></td>
+              <td>Cubic</td>
+              <td>Three-level nested loops, naive matrix multiplication.</td>
+            </tr>
+            <tr>
+              <td><strong>O(2ⁿ)</strong></td>
+              <td>Exponential</td>
+              <td>Naive recursive Fibonacci, finding all subsets of a set.</td>
+            </tr>
+            <tr>
+              <td><strong>O(n!)</strong></td>
+              <td>Factorial</td>
+              <td>Traveling salesperson brute force, generating all permutations.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: About -->
+  <div class="modal-backdrop" id="modalAbout">
+    <div class="modal-window">
+      <div class="modal-header-row">
+        <h3>ℹ️ About Code Complexity Analyzer</h3>
+        <button class="modal-close-icon" id="btnCloseAbout">&times;</button>
+      </div>
+      <div class="modal-body-scroll">
+        <p><strong>Code Complexity Analyzer</strong> is a developer workbench designed to demystify algorithmic computational complexity.</p>
+        <p>It relies on <strong>formal Abstract Syntax Tree (AST) structure inspection</strong>, recursive call-graph tracing, loop nesting depth calculation, and the <strong>Master Theorem</strong> for recurrences.</p>
+        <p>It provides clear, human-readable explanations of worst-case, average-case, and best-case asymptotic bounds, alongside line-by-line cost heatmaps and actionable optimization suggestions.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer"></div>
+
+  <!-- Main Controller Script -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

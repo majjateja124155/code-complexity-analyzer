@@ -1,0 +1,223 @@
+/* ==========================================================================
+   CodeComplex - Asymptotic Growth Visualizer & Benchmark Chart Styles
+   ========================================================================== */
+
+.visualizer-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.visualizer-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.scale-buttons-toggle {
+  display: flex;
+  align-items: center;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.btn-scale-toggle {
+  padding: 5px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-scale-toggle.active {
+  background: var(--bg-surface);
+  color: var(--primary);
+  box-shadow: var(--shadow-xs);
+}
+
+/* Canvas Box */
+.chart-canvas-box {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  background: var(--bg-dark-editor);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.chart-canvas-box canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Legend */
+.chart-legend-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.legend-tag-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.legend-circle-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+/* Benchmark Simulator Card */
+.benchmark-simulation-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-xs);
+}
+
+.simulation-header-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.slider-group-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.slider-group-box label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  white-space: nowrap;
+}
+
+.slider-n-input {
+  flex: 1;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.slider-n-display {
+  background: var(--primary-light);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  color: var(--primary);
+  padding: 3px 12px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.88rem;
+}
+
+[data-theme="dark"] .slider-n-display {
+  background: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+}
+
+.quick-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quick-n-btn {
+  padding: 3px 10px;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quick-n-btn:hover, .quick-n-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+/* Benchmark Table */
+.benchmark-table-responsive {
+  overflow-x: auto;
+}
+
+.benchmark-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.benchmark-data-table th {
+  padding: 10px 14px;
+  background: var(--bg-surface-subtle);
+  color: var(--text-muted);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.72rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.benchmark-data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  color: var(--text-heading);
+}
+
+.benchmark-data-table tr.row-active-algorithm {
+  background: rgba(99, 102, 241, 0.08);
+  font-weight: 700;
+}
+
+.benchmark-data-table tr.row-active-algorithm td {
+  color: var(--primary);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.tag-status-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.status-instant { background: rgba(16, 185, 129, 0.12); color: #10b981; }
+.status-lightning { background: rgba(6, 182, 212, 0.12); color: #06b6d4; }
+.status-fast { background: rgba(59, 130, 246, 0.12); color: #3b82f6; }
+.status-optimal { background: rgba(234, 179, 8, 0.12); color: #eab308; }
+.status-slow { background: rgba(249, 115, 22, 0.12); color: #f97316; }
+.status-infeasible { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
