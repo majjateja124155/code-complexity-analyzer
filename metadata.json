@@ -1,0 +1,6 @@
+{
+  "name": "CodeComplexity analyzer AI",
+  "description": "Understand Your Code. Predict Its Complexity. AI-powered algorithm time and auxiliary space complexity analysis, plain-language reasoning, pattern detection, and optimization insights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
